@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#0a2540">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SugarSisters Blend">
+<title>SugarSisters Blend Traceability</title>
+<link rel="manifest" href="data:application/json;charset=utf-8,%7B%22name%22%3A%22SugarSisters%20Blend%20Traceability%22%2C%22short_name%22%3A%22SS%20Blend%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230a2540%22%2C%22theme_color%22%3A%22%230a2540%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxOTIgMTkyJz48cmVjdCB3aWR0aD0nMTkyJyBoZWlnaHQ9JzE5MicgZmlsbD0nIzBhMjU0MCcvPjx0ZXh0IHg9Jzk2JyB5PScxMjAnIGZvbnQtZmFtaWx5PSdBcmlhbCcgZm9udC1zaXplPSc5NicgZm9udC13ZWlnaHQ9JzkwMCcgZmlsbD0nI2YwYjQyOScgdGV4dC1hbmNob3I9J21pZGRsZSc%2BU1M8L3RleHQ%2BPC9zdmc%2B%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D">
+
+<style>
+  :root {
+    --navy: #0a2540;
+    --navy-2: #0f3257;
+    --gold: #f0b429;
+    --gold-2: #d99a14;
+    --green: #16a34a;
+    --green-bg: #dcfce7;
+    --red: #dc2626;
+    --red-bg: #fee2e2;
+    --amber: #f59e0b;
+    --amber-bg: #fef3c7;
+    --grey-50: #f8fafc;
+    --grey-100: #f1f5f9;
+    --grey-200: #e2e8f0;
+    --grey-400: #94a3b8;
+    --grey-600: #475569;
+    --grey-800: #1e293b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; overflow-x: hidden; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", system-ui, sans-serif;
+    background: var(--grey-50);
+    color: var(--grey-800);
+    font-size: 17px;
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* ------- Header ------- */
+  header {
+    background: var(--navy);
+    color: white;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  }
+  header .brand { display: flex; align-items: center; gap: 10px; }
+  header .logo {
+    width: 34px; height: 34px;
+    background: var(--gold);
+    color: var(--navy);
+    font-weight: 900;
+    border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+  header .title { font-size: 16px; font-weight: 700; letter-spacing: 0.2px; }
+  header .subtitle { font-size: 11px; opacity: 0.7; }
+  header .who { font-size: 12px; opacity: 0.85; text-align: right; }
+
+  /* ------- Progress bar ------- */
+  .progress-wrap {
+    background: var(--navy-2);
+    padding: 10px 18px 12px;
+    color: white;
+    position: sticky;
+    top: 62px;
+    z-index: 99;
+  }
+  .progress-label {
+    display: flex; justify-content: space-between;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px;
+    opacity: 0.85; margin-bottom: 6px;
+  }
+  .progress-bar {
+    height: 6px; background: rgba(255,255,255,0.15); border-radius: 3px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; background: var(--gold); transition: width 0.35s ease;
+  }
+
+  /* ------- Main ------- */
+  main { padding: 18px; max-width: 600px; margin: 0 auto; }
+  .screen { display: none; animation: slideIn 0.25s ease; }
+  .screen.active { display: block; }
+  @keyframes slideIn { from { opacity: 0; transform: translateX(8px); } to { opacity: 1; transform: translateX(0); } }
+
+  h1 { font-size: 22px; font-weight: 800; color: var(--navy); margin-bottom: 4px; line-height: 1.2; }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: var(--grey-600); font-weight: 700; margin-bottom: 14px; }
+  p.lead { color: var(--grey-600); margin-bottom: 20px; font-size: 15px; }
+
+  /* ------- Cards ------- */
+  .card {
+    background: white;
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 14px;
+    border: 1px solid var(--grey-200);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  }
+  .card-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--grey-100); }
+  .card-row:last-child { border-bottom: none; }
+  .card-row .label { font-size: 13px; color: var(--grey-600); font-weight: 500; }
+  .card-row .value { font-size: 15px; color: var(--navy); font-weight: 600; }
+
+  /* ------- Form ------- */
+  label { display: block; font-size: 13px; font-weight: 600; color: var(--grey-600); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 6px; }
+  input, select, textarea {
+    width: 100%;
+    padding: 14px 14px;
+    border: 2px solid var(--grey-200);
+    border-radius: 10px;
+    font-size: 17px;
+    font-family: inherit;
+    background: white;
+    color: var(--grey-800);
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(240, 180, 41, 0.2);
+  }
+  input[type="number"] { font-size: 22px; font-weight: 700; text-align: center; font-variant-numeric: tabular-nums; }
+  .input-with-action { display: flex; gap: 8px; }
+  .input-with-action input { flex: 1; }
+  .field { margin-bottom: 16px; }
+  .field-hint { font-size: 12px; color: var(--grey-600); margin-top: 6px; }
+
+  /* ------- Buttons ------- */
+  .btn {
+    display: block;
+    width: 100%;
+    padding: 18px 20px;
+    border: none;
+    border-radius: 12px;
+    font-size: 17px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    text-align: center;
+    transition: transform 0.06s ease, box-shadow 0.15s ease;
+    -webkit-appearance: none;
+  }
+  .btn:active { transform: scale(0.98); }
+  .btn-primary { background: var(--navy); color: white; }
+  .btn-primary:disabled { background: var(--grey-200); color: var(--grey-400); cursor: not-allowed; }
+  .btn-gold { background: var(--gold); color: var(--navy); box-shadow: 0 2px 0 var(--gold-2); }
+  .btn-gold:disabled { background: var(--grey-200); color: var(--grey-400); box-shadow: none; cursor: not-allowed; }
+  .btn-ghost { background: transparent; color: var(--navy); border: 2px solid var(--grey-200); }
+  .btn-danger-ghost { background: transparent; color: var(--red); border: 2px solid var(--red); margin-top: 8px; }
+  .btn-icon { padding: 14px 16px; background: var(--grey-100); border: 2px solid var(--grey-200); border-radius: 10px; cursor: pointer; }
+  .btn-icon svg { width: 22px; height: 22px; display: block; }
+  .btn-row { display: flex; gap: 10px; margin-top: 14px; }
+  .btn-row .btn { flex: 1; }
+
+  /* ------- Blend chooser ------- */
+  .blend-grid { display: flex; flex-direction: column; gap: 10px; }
+  .blend-card {
+    background: white;
+    border: 2px solid var(--grey-200);
+    border-radius: 12px;
+    padding: 16px 18px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.15s ease;
+  }
+  .blend-card:active { transform: scale(0.99); }
+  .blend-card .name { font-size: 17px; font-weight: 700; color: var(--navy); }
+  .blend-card .meta { font-size: 12px; color: var(--grey-600); margin-top: 2px; }
+  .blend-card .arrow { color: var(--gold); font-size: 24px; font-weight: 700; }
+
+  /* ------- Step indicator ------- */
+  .step-pill {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--navy);
+    font-size: 11px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 99px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+
+  /* ------- Target weight display ------- */
+  .target {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%);
+    color: white;
+    padding: 22px;
+    border-radius: 12px;
+    margin-bottom: 18px;
+    text-align: center;
+  }
+  .target .ing-name { font-size: 14px; text-transform: uppercase; letter-spacing: 1.2px; opacity: 0.85; margin-bottom: 4px; }
+  .target .weight { font-size: 48px; font-weight: 900; color: var(--gold); font-variant-numeric: tabular-nums; line-height: 1; margin: 6px 0; }
+  .target .unit { font-size: 14px; opacity: 0.7; }
+  .target .stock { font-size: 12px; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.15); opacity: 0.75; }
+
+  /* ------- Variance feedback ------- */
+  .variance {
+    margin-top: 12px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    display: none;
+  }
+  .variance.show { display: block; }
+  .variance.ok { background: var(--green-bg); color: var(--green); }
+  .variance.warn { background: var(--amber-bg); color: var(--amber); }
+  .variance.bad { background: var(--red-bg); color: var(--red); }
+
+  /* ------- Summary screen ------- */
+  .summary-block { background: white; border-radius: 12px; padding: 16px 18px; margin-bottom: 12px; border: 1px solid var(--grey-200); }
+  .summary-block h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--grey-600); margin-bottom: 10px; }
+  .summary-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 15px; }
+  .summary-row .lbl { color: var(--grey-600); }
+  .summary-row .val { font-weight: 600; color: var(--navy); font-variant-numeric: tabular-nums; }
+
+  /* ------- Status banner ------- */
+  .banner {
+    padding: 14px 18px;
+    border-radius: 10px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .banner.ok { background: var(--green-bg); color: var(--green); }
+  .banner.warn { background: var(--amber-bg); color: var(--amber); }
+  .banner.bad { background: var(--red-bg); color: var(--red); }
+  .banner-icon { font-size: 22px; }
+
+  /* ------- Toast ------- */
+  .toast {
+    position: fixed;
+    bottom: calc(20px + env(safe-area-inset-bottom));
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--navy);
+    color: white;
+    padding: 14px 22px;
+    border-radius: 99px;
+    font-weight: 600;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+    max-width: 90%;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* ------- Scanner overlay ------- */
+  .scanner-overlay {
+    position: fixed;
+    inset: 0;
+    background: black;
+    z-index: 9999;
+    display: none;
+    flex-direction: column;
+  }
+  .scanner-overlay.show { display: flex; }
+  .scanner-overlay video { flex: 1; width: 100%; object-fit: cover; }
+  .scanner-overlay .scanner-close {
+    position: absolute; top: 20px; right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    border: none;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    font-size: 22px;
+    cursor: pointer;
+    z-index: 10;
+  }
+  .scanner-overlay .scanner-frame {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: none;
+  }
+  .scanner-overlay .scanner-window {
+    width: 80%; max-width: 320px; height: 180px;
+    border: 3px solid var(--gold);
+    border-radius: 16px;
+    box-shadow: 0 0 0 9999px rgba(0,0,0,0.45);
+  }
+  .scanner-overlay .scanner-hint {
+    position: absolute; bottom: 40px; left: 0; right: 0;
+    text-align: center; color: white; font-size: 14px; opacity: 0.85;
+  }
+
+  /* ------- Recent batches ------- */
+  .batch-item {
+    background: white;
+    border: 1px solid var(--grey-200);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+  }
+  .batch-item .b-id { font-weight: 700; color: var(--navy); }
+  .batch-item .b-meta { font-size: 12px; color: var(--grey-600); margin-top: 2px; }
+  .batch-item .b-status { font-size: 11px; padding: 4px 8px; border-radius: 99px; font-weight: 700; }
+  .batch-item .b-status.ok { background: var(--green-bg); color: var(--green); }
+  .batch-item .b-status.bad { background: var(--red-bg); color: var(--red); }
+
+  /* ------- Footer nav ------- */
+  .nav-bar {
+    position: sticky; bottom: 0;
+    background: white;
+    border-top: 1px solid var(--grey-200);
+    padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+    display: flex;
+    z-index: 50;
+  }
+  .nav-btn { flex: 1; background: none; border: none; padding: 8px 0; font-size: 11px; color: var(--grey-600); cursor: pointer; font-family: inherit; font-weight: 600; }
+  .nav-btn.active { color: var(--navy); }
+  .nav-btn .ico { display: block; font-size: 22px; margin-bottom: 2px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="logo">SS</div>
+    <div>
+      <div class="title">Blend Traceability</div>
+      <div class="subtitle">SugarSisters Production</div>
+    </div>
+  </div>
+  <div class="who" id="whoLabel"></div>
+</header>
+
+<div class="progress-wrap" id="progressWrap" style="display:none;">
+  <div class="progress-label">
+    <span id="progressText">Step 1 of 6</span>
+    <span id="batchLabel"></span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+</div>
+
+<main>
+
+  <!-- ============== LOGIN ============== -->
+  <section class="screen active" id="screen-login">
+    <h1>Sign in</h1>
+    <p class="lead">Enter your name to start logging batches.</p>
+    <div class="card">
+      <div class="field">
+        <label>Operator name</label>
+        <input type="text" id="loginName" placeholder="e.g. Mary O'Brien" autocomplete="name">
+      </div>
+      <button class="btn btn-gold" onclick="login()">Continue →</button>
+    </div>
+  </section>
+
+  <!-- ============== HOME ============== -->
+  <section class="screen" id="screen-home">
+    <h1>Start a new batch</h1>
+    <p class="lead">Pick the blend you're making. The app will guide you step by step.</p>
+    <div class="blend-grid" id="blendGrid"></div>
+
+    <div style="margin-top: 22px;">
+      <h2>Today's batches</h2>
+      <div id="recentBatches"></div>
+    </div>
+  </section>
+
+  <!-- ============== STEP 1: confirm batch start ============== -->
+  <section class="screen" id="screen-start">
+    <span class="step-pill">Start</span>
+    <h1 id="startBlendName">Blend Name</h1>
+    <div class="card">
+      <div class="card-row"><span class="label">Batch number</span><span class="value" id="startBatchNo">—</span></div>
+      <div class="card-row"><span class="label">Bag size</span><span class="value" id="startBagSize">—</span></div>
+      <div class="card-row"><span class="label">Bags this batch</span><span class="value" id="startBagsExpected">—</span></div>
+      <div class="card-row"><span class="label">Operator</span><span class="value" id="startOperator">—</span></div>
+      <div class="card-row"><span class="label">Date / time</span><span class="value" id="startDateTime">—</span></div>
+    </div>
+    <button class="btn btn-gold" onclick="goToIngredient(0)">Begin weighing →</button>
+    <button class="btn btn-ghost" style="margin-top:10px;" onclick="showScreen('home')">Cancel</button>
+  </section>
+
+  <!-- ============== INGREDIENT STEP ============== -->
+  <section class="screen" id="screen-ingredient">
+    <span class="step-pill" id="ingPill">Step 1</span>
+    <h1 id="ingHeading">Add ingredient</h1>
+
+    <div class="target">
+      <div class="ing-name" id="ingName">Icing Sugar</div>
+      <div class="weight" id="ingTarget">0</div>
+      <div class="unit">grams target</div>
+      <div class="stock" id="ingStock"></div>
+    </div>
+
+    <div class="field">
+      <label>Actual weight added (g)</label>
+      <input type="number" inputmode="decimal" id="ingActual" placeholder="Weigh and enter…" autocomplete="off">
+      <div class="variance" id="ingVariance"></div>
+    </div>
+
+    <div class="field">
+      <label>Supplier lot number</label>
+      <div class="input-with-action">
+        <input type="text" id="ingLot" placeholder="Type or scan…" autocomplete="off">
+        <button class="btn-icon" onclick="openScanner()" aria-label="Scan barcode">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#0a2540" stroke-width="2.2" stroke-linecap="round">
+            <path d="M3 7V5a2 2 0 0 1 2-2h2"/>
+            <path d="M17 3h2a2 2 0 0 1 2 2v2"/>
+            <path d="M21 17v2a2 2 0 0 1-2 2h-2"/>
+            <path d="M7 21H5a2 2 0 0 1-2-2v-2"/>
+            <path d="M7 8v8M11 8v8M15 8v8M19 8v8"/>
+          </svg>
+        </button>
+      </div>
+      <div class="field-hint">Tap the icon to scan the bag barcode.</div>
+    </div>
+
+    <button class="btn btn-gold" id="ingNextBtn" onclick="confirmIngredient()" disabled>Confirm and continue →</button>
+    <button class="btn btn-ghost" style="margin-top:10px;" onclick="goPrevious()">← Back</button>
+  </section>
+
+  <!-- ============== FINAL STEP: bag count + best before ============== -->
+  <section class="screen" id="screen-finish">
+    <span class="step-pill">Final</span>
+    <h1>Finished bags</h1>
+    <p class="lead">How many bags did this batch produce?</p>
+
+    <div class="card">
+      <div class="card-row"><span class="label">Expected bags</span><span class="value" id="finExpectedBags">—</span></div>
+      <div class="card-row"><span class="label">Bag size</span><span class="value" id="finBagSize">—</span></div>
+    </div>
+
+    <div class="field">
+      <label>Bags actually produced</label>
+      <input type="number" inputmode="numeric" id="finBagsActual" placeholder="0">
+    </div>
+    <div class="field">
+      <label>Best-before date</label>
+      <input type="date" id="finBestBefore">
+    </div>
+    <div class="field">
+      <label>Notes (optional)</label>
+      <textarea id="finNotes" rows="2" placeholder="Anything unusual?"></textarea>
+    </div>
+
+    <button class="btn btn-gold" onclick="reviewBatch()">Review batch →</button>
+    <button class="btn btn-ghost" style="margin-top:10px;" onclick="goPrevious()">← Back</button>
+  </section>
+
+  <!-- ============== REVIEW ============== -->
+  <section class="screen" id="screen-review">
+    <span class="step-pill">Review</span>
+    <h1>Review and submit</h1>
+
+    <div id="reviewBanner"></div>
+
+    <div class="summary-block" id="reviewSummary"></div>
+    <div class="summary-block" id="reviewIngredients"></div>
+    <div class="summary-block" id="reviewTotals"></div>
+
+    <button class="btn btn-gold" onclick="submitBatch()">Submit batch ✓</button>
+    <button class="btn btn-ghost" style="margin-top:10px;" onclick="showScreen('finish')">← Back to edit</button>
+  </section>
+
+  <!-- ============== DONE ============== -->
+  <section class="screen" id="screen-done">
+    <div class="banner ok"><span class="banner-icon">✓</span><span>Batch submitted successfully</span></div>
+    <h1 id="doneBatchNo">Batch saved</h1>
+    <p class="lead" id="doneSummary"></p>
+    <button class="btn btn-gold" onclick="showScreen('home')">Start another batch</button>
+    <button class="btn btn-ghost" style="margin-top:10px;" onclick="downloadCSV()">Download all batches (CSV)</button>
+  </section>
+
+  <!-- ============== STOCK ============== -->
+  <section class="screen" id="screen-stock">
+    <h1>Stock levels</h1>
+    <p class="lead">Live remaining stock based on batches logged.</p>
+    <div id="stockList"></div>
+    <button class="btn btn-ghost" style="margin-top:14px;" onclick="resetStockPrompt()">Reset / adjust stock…</button>
+  </section>
+
+</main>
+
+<!-- ============== SCANNER OVERLAY ============== -->
+<div class="scanner-overlay" id="scannerOverlay">
+  <button class="scanner-close" onclick="closeScanner()">✕</button>
+  <video id="scannerVideo" playsinline muted></video>
+  <div class="scanner-frame"><div class="scanner-window"></div></div>
+  <div class="scanner-hint" id="scannerHint">Point camera at a barcode</div>
+</div>
+
+<!-- ============== TOAST ============== -->
+<div class="toast" id="toast"></div>
+
+<!-- ============== NAV BAR ============== -->
+<nav class="nav-bar" id="navBar" style="display:none;">
+  <button class="nav-btn active" data-screen="home" onclick="showScreen('home')"><span class="ico">＋</span>New batch</button>
+  <button class="nav-btn" data-screen="stock" onclick="showScreen('stock')"><span class="ico">📦</span>Stock</button>
+  <button class="nav-btn" onclick="logout()"><span class="ico">↩</span>Sign out</button>
+</nav>
+
+<!-- BarcodeDetector polyfill loaded only if needed -->
+<script>
+// ============================================================
+//  DATA — recipes and ingredients (edit here to add new blends)
+// ============================================================
+const RECIPES = [
+  {
+    name: "Frozen Ice 400g",
+    bagSize: 400,
+    bagsPerBatch: 36,
+    ingredients: [
+      { name: "Icing Sugar",            grams: 13600 },
+      { name: "Dried Egg White Powder", grams: 924   },
+      { name: "Vanilla Powder",         grams: 179   },
+      { name: "Brilliant Blue E134",    grams: 17    },
+    ],
+  },
+  // Example second blend so the dropdown isn't lonely.
+  // Replace these placeholder numbers with your real recipe.
+  {
+    name: "Royal Icing 400g",
+    bagSize: 400,
+    bagsPerBatch: 36,
+    ingredients: [
+      { name: "Icing Sugar",            grams: 13680 },
+      { name: "Dried Egg White Powder", grams: 1080  },
+      { name: "Cream of Tartar",        grams: 40    },
+    ],
+  },
+];
+
+// Tolerance band for variance feedback
+const TOL_OK   = 0.01;  // within 1 % = green
+const TOL_WARN = 0.025; // within 2.5 % = amber, beyond = red
+
+// Default opening stock — adjust under "Stock" tab
+const DEFAULT_STOCK = {
+  "Icing Sugar":            { opening: 500000, unit: "g" },
+  "Dried Egg White Powder": { opening: 50000,  unit: "g" },
+  "Vanilla Powder":         { opening: 10000,  unit: "g" },
+  "Brilliant Blue E134":    { opening: 2000,   unit: "g" },
+  "Cream of Tartar":        { opening: 5000,   unit: "g" },
+};
+
+// ============================================================
+//  STATE
+// ============================================================
+let state = {
+  operator: null,
+  recipe: null,
+  batchNo: null,
+  startedAt: null,
+  ingredientStep: 0,
+  ingredientResults: [], // [{name, target, actual, lot, scannedAt}]
+  bagsActual: null,
+  bestBefore: null,
+  notes: "",
+};
+
+// Persisted in localStorage
+function load(key, fallback) {
+  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }
+  catch (e) { return fallback; }
+}
+function save(key, value) { localStorage.setItem(key, JSON.stringify(value)); }
+
+let batches = load("ss_batches", []);
+let stock = load("ss_stock", null);
+if (!stock) {
+  stock = {};
+  for (const k in DEFAULT_STOCK) stock[k] = { ...DEFAULT_STOCK[k] };
+  save("ss_stock", stock);
+}
+
+let settings = load("ss_settings", { telegramBotToken: "", telegramChatId: "", emailWebhook: "" });
+
+// ============================================================
+//  SCREEN ROUTER
+// ============================================================
+function showScreen(id) {
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  const el = document.getElementById("screen-" + id);
+  if (el) el.classList.add("active");
+  document.querySelectorAll(".nav-btn[data-screen]").forEach(b => b.classList.toggle("active", b.dataset.screen === id));
+
+  const showProgress = ["start", "ingredient", "finish", "review"].includes(id);
+  document.getElementById("progressWrap").style.display = showProgress ? "block" : "none";
+
+  if (id === "home") renderHome();
+  if (id === "stock") renderStock();
+  window.scrollTo(0, 0);
+}
+
+// ============================================================
+//  LOGIN
+// ============================================================
+window.addEventListener("DOMContentLoaded", () => {
+  const stored = load("ss_operator", null);
+  if (stored) {
+    state.operator = stored;
+    document.getElementById("whoLabel").textContent = stored;
+    document.getElementById("navBar").style.display = "flex";
+    showScreen("home");
+  }
+});
+
+function login() {
+  const name = document.getElementById("loginName").value.trim();
+  if (!name) { toast("Enter your name to continue"); return; }
+  state.operator = name;
+  save("ss_operator", name);
+  document.getElementById("whoLabel").textContent = name;
+  document.getElementById("navBar").style.display = "flex";
+  showScreen("home");
+}
+
+function logout() {
+  if (!confirm("Sign out?")) return;
+  localStorage.removeItem("ss_operator");
+  state.operator = null;
+  document.getElementById("whoLabel").textContent = "";
+  document.getElementById("navBar").style.display = "none";
+  showScreen("login");
+}
+
+// ============================================================
+//  HOME / BLEND CHOOSER
+// ============================================================
+function renderHome() {
+  const g = document.getElementById("blendGrid");
+  g.innerHTML = "";
+  RECIPES.forEach((r, i) => {
+    const card = document.createElement("div");
+    card.className = "blend-card";
+    card.onclick = () => startBatch(i);
+    card.innerHTML = `
+      <div>
+        <div class="name">${r.name}</div>
+        <div class="meta">${r.ingredients.length} ingredients · ${r.bagsPerBatch} bags · ${r.bagSize}g</div>
+      </div>
+      <div class="arrow">›</div>`;
+    g.appendChild(card);
+  });
+
+  // Today's batches
+  const today = new Date().toISOString().slice(0,10);
+  const todays = batches.filter(b => b.date.slice(0,10) === today).slice(-5).reverse();
+  const rb = document.getElementById("recentBatches");
+  if (todays.length === 0) {
+    rb.innerHTML = `<div style="color:var(--grey-600); font-size:14px; padding:8px 0;">No batches yet today.</div>`;
+  } else {
+    rb.innerHTML = todays.map(b => `
+      <div class="batch-item">
+        <div>
+          <div class="b-id">${b.batchNo}</div>
+          <div class="b-meta">${b.recipeName} · ${b.bagsActual} bags · ${b.operator}</div>
+        </div>
+        <div class="b-status ${b.status === 'OK' ? 'ok' : 'bad'}">${b.status}</div>
+      </div>`).join("");
+  }
+}
+
+// ============================================================
+//  START BATCH
+// ============================================================
+function startBatch(recipeIndex) {
+  state.recipe = RECIPES[recipeIndex];
+  state.batchNo = nextBatchNo();
+  state.startedAt = new Date().toISOString();
+  state.ingredientStep = 0;
+  state.ingredientResults = state.recipe.ingredients.map(i => ({
+    name: i.name, target: i.grams, actual: null, lot: "", scannedAt: null
+  }));
+  state.bagsActual = null;
+  state.bestBefore = null;
+  state.notes = "";
+
+  document.getElementById("startBlendName").textContent = state.recipe.name;
+  document.getElementById("startBatchNo").textContent = state.batchNo;
+  document.getElementById("startBagSize").textContent = state.recipe.bagSize + " g";
+  document.getElementById("startBagsExpected").textContent = state.recipe.bagsPerBatch + " bags";
+  document.getElementById("startOperator").textContent = state.operator;
+  document.getElementById("startDateTime").textContent = formatDateTime(new Date());
+  document.getElementById("batchLabel").textContent = state.batchNo;
+
+  updateProgress(0);
+  showScreen("start");
+}
+
+function nextBatchNo() {
+  const yr = new Date().getFullYear();
+  const yrBatches = batches.filter(b => b.batchNo.startsWith(`B${yr}`));
+  const nextNum = String(yrBatches.length + 1).padStart(4, "0");
+  return `B${yr}-${nextNum}`;
+}
+
+// ============================================================
+//  INGREDIENT STEP
+// ============================================================
+function goToIngredient(idx) {
+  if (idx < 0) { showScreen("start"); return; }
+  if (idx >= state.recipe.ingredients.length) { showScreen("finish"); prepareFinish(); return; }
+
+  state.ingredientStep = idx;
+  const ing = state.recipe.ingredients[idx];
+  const prior = state.ingredientResults[idx];
+
+  document.getElementById("ingPill").textContent = `Step ${idx + 1} of ${state.recipe.ingredients.length + 1}`;
+  document.getElementById("ingHeading").textContent = `Ingredient ${idx + 1}`;
+  document.getElementById("ingName").textContent = ing.name;
+  document.getElementById("ingTarget").textContent = ing.grams.toLocaleString();
+
+  const stockLeft = stockRemaining(ing.name);
+  const stockEl = document.getElementById("ingStock");
+  if (stockLeft !== null) {
+    stockEl.textContent = `In stock: ${stockLeft.toLocaleString()} g (${(stockLeft/1000).toFixed(2)} kg)`;
+    if (stockLeft < ing.grams) stockEl.style.color = "#f87171";
+    else stockEl.style.color = "";
+  } else {
+    stockEl.textContent = "";
+  }
+
+  document.getElementById("ingActual").value = prior.actual !== null ? prior.actual : "";
+  document.getElementById("ingLot").value = prior.lot || "";
+  validateIngredient();
+
+  updateProgress(idx + 1);
+  showScreen("ingredient");
+  setTimeout(() => document.getElementById("ingActual").focus(), 200);
+}
+
+document.getElementById("ingActual").addEventListener("input", validateIngredient);
+document.getElementById("ingLot").addEventListener("input", validateIngredient);
+
+function validateIngredient() {
+  const ing = state.recipe?.ingredients[state.ingredientStep];
+  if (!ing) return;
+  const actual = parseFloat(document.getElementById("ingActual").value);
+  const lot = document.getElementById("ingLot").value.trim();
+  const v = document.getElementById("ingVariance");
+  const btn = document.getElementById("ingNextBtn");
+
+  if (!isNaN(actual) && actual > 0) {
+    const diff = (actual - ing.grams) / ing.grams;
+    const pct = (diff * 100).toFixed(2);
+    v.classList.remove("ok", "warn", "bad");
+    if (Math.abs(diff) <= TOL_OK) {
+      v.textContent = `✓ Within tolerance (${pct >= 0 ? "+" : ""}${pct}%)`;
+      v.classList.add("ok", "show");
+    } else if (Math.abs(diff) <= TOL_WARN) {
+      v.textContent = `⚠ Slight variance (${pct >= 0 ? "+" : ""}${pct}%) — double-check.`;
+      v.classList.add("warn", "show");
+    } else {
+      v.textContent = `✕ Out of tolerance (${pct >= 0 ? "+" : ""}${pct}%) — re-weigh before continuing.`;
+      v.classList.add("bad", "show");
+    }
+  } else {
+    v.classList.remove("show");
+  }
+  btn.disabled = !(actual > 0 && lot.length > 0);
+}
+
+function confirmIngredient() {
+  const ing = state.recipe.ingredients[state.ingredientStep];
+  const actual = parseFloat(document.getElementById("ingActual").value);
+  const lot = document.getElementById("ingLot").value.trim();
+  if (!(actual > 0) || !lot) return;
+  state.ingredientResults[state.ingredientStep] = {
+    name: ing.name, target: ing.grams, actual, lot, scannedAt: new Date().toISOString()
+  };
+  goToIngredient(state.ingredientStep + 1);
+}
+
+function goPrevious() {
+  const cur = currentScreenId();
+  if (cur === "ingredient") goToIngredient(state.ingredientStep - 1);
+  else if (cur === "finish") goToIngredient(state.recipe.ingredients.length - 1);
+  else showScreen("home");
+}
+
+function currentScreenId() {
+  const active = document.querySelector(".screen.active");
+  return active ? active.id.replace("screen-", "") : "";
+}
+
+function updateProgress(stepNum) {
+  const totalSteps = state.recipe ? state.recipe.ingredients.length + 2 : 1; // start + ingredients + finish
+  const pct = Math.round((stepNum / totalSteps) * 100);
+  document.getElementById("progressFill").style.width = pct + "%";
+  document.getElementById("progressText").textContent = `Step ${stepNum + 1} of ${totalSteps}`;
+}
+
+// ============================================================
+//  FINISH STEP
+// ============================================================
+function prepareFinish() {
+  document.getElementById("finExpectedBags").textContent = state.recipe.bagsPerBatch + " bags";
+  document.getElementById("finBagSize").textContent = state.recipe.bagSize + " g";
+  document.getElementById("finBagsActual").value = state.bagsActual ?? "";
+  if (!document.getElementById("finBestBefore").value) {
+    const d = new Date();
+    d.setFullYear(d.getFullYear() + 1);
+    document.getElementById("finBestBefore").value = d.toISOString().slice(0, 10);
+  }
+  updateProgress(state.recipe.ingredients.length + 1);
+}
+
+function reviewBatch() {
+  const bags = parseInt(document.getElementById("finBagsActual").value);
+  const bb = document.getElementById("finBestBefore").value;
+  const notes = document.getElementById("finNotes").value.trim();
+  if (!(bags > 0)) { toast("Enter the number of bags produced"); return; }
+  if (!bb) { toast("Set a best-before date"); return; }
+  state.bagsActual = bags;
+  state.bestBefore = bb;
+  state.notes = notes;
+  renderReview();
+  showScreen("review");
+}
+
+function renderReview() {
+  const totals = computeTotals();
+  const bannerEl = document.getElementById("reviewBanner");
+  bannerEl.innerHTML = `
+    <div class="banner ${totals.statusClass}">
+      <span class="banner-icon">${totals.statusClass === 'ok' ? '✓' : (totals.statusClass === 'warn' ? '⚠' : '✕')}</span>
+      <span>${totals.statusText}</span>
+    </div>`;
+
+  document.getElementById("reviewSummary").innerHTML = `
+    <h3>Batch details</h3>
+    <div class="summary-row"><span class="lbl">Batch number</span><span class="val">${state.batchNo}</span></div>
+    <div class="summary-row"><span class="lbl">Blend</span><span class="val">${state.recipe.name}</span></div>
+    <div class="summary-row"><span class="lbl">Operator</span><span class="val">${state.operator}</span></div>
+    <div class="summary-row"><span class="lbl">Date / time</span><span class="val">${formatDateTime(new Date(state.startedAt))}</span></div>
+    <div class="summary-row"><span class="lbl">Bags produced</span><span class="val">${state.bagsActual}</span></div>
+    <div class="summary-row"><span class="lbl">Best before</span><span class="val">${state.bestBefore}</span></div>
+  `;
+
+  document.getElementById("reviewIngredients").innerHTML = `
+    <h3>Ingredients</h3>
+    ${state.ingredientResults.map(r => `
+      <div class="summary-row"><span class="lbl">${r.name}<br><span style="font-size:11px;color:var(--grey-400)">Lot: ${r.lot}</span></span><span class="val">${r.actual.toLocaleString()} g<br><span style="font-size:11px;color:var(--grey-400)">target ${r.target.toLocaleString()}</span></span></div>
+    `).join("")}
+  `;
+
+  document.getElementById("reviewTotals").innerHTML = `
+    <h3>Variance check</h3>
+    <div class="summary-row"><span class="lbl">Total ingredients in</span><span class="val">${totals.totalIn.toLocaleString()} g</span></div>
+    <div class="summary-row"><span class="lbl">Total output</span><span class="val">${totals.totalOut.toLocaleString()} g</span></div>
+    <div class="summary-row"><span class="lbl">Variance</span><span class="val">${(totals.variance >= 0 ? "+" : "") + totals.variance.toLocaleString()} g (${(totals.variancePct * 100).toFixed(2)}%)</span></div>
+  `;
+}
+
+function computeTotals() {
+  const totalIn = state.ingredientResults.reduce((s, r) => s + (r.actual || 0), 0);
+  const totalOut = state.bagsActual * state.recipe.bagSize;
+  const variance = totalIn - totalOut;
+  const variancePct = totalOut === 0 ? 0 : variance / totalOut;
+  let statusClass, statusText, status;
+  if (Math.abs(variancePct) <= TOL_OK) {
+    statusClass = "ok"; statusText = "All checks passed — variance within 1%."; status = "OK";
+  } else if (Math.abs(variancePct) <= TOL_WARN) {
+    statusClass = "warn"; statusText = "Slight variance — review before submitting."; status = "REVIEW";
+  } else {
+    statusClass = "bad"; statusText = "Variance over 2.5% — possible missed or wrong ingredient."; status = "CHECK";
+  }
+  return { totalIn, totalOut, variance, variancePct, statusClass, statusText, status };
+}
+
+// ============================================================
+//  SUBMIT BATCH
+// ============================================================
+async function submitBatch() {
+  const totals = computeTotals();
+  const batch = {
+    batchNo: state.batchNo,
+    date: new Date().toISOString(),
+    operator: state.operator,
+    recipeName: state.recipe.name,
+    bagSize: state.recipe.bagSize,
+    bagsExpected: state.recipe.bagsPerBatch,
+    bagsActual: state.bagsActual,
+    bestBefore: state.bestBefore,
+    notes: state.notes,
+    ingredients: state.ingredientResults,
+    totalIn: totals.totalIn,
+    totalOut: totals.totalOut,
+    variance: totals.variance,
+    variancePct: totals.variancePct,
+    status: totals.status,
+  };
+
+  // Persist
+  batches.push(batch);
+  save("ss_batches", batches);
+
+  // Decrement stock
+  for (const ing of batch.ingredients) {
+    if (!stock[ing.name]) stock[ing.name] = { opening: 0, unit: "g" };
+    stock[ing.name].opening = stock[ing.name].opening - ing.actual;
+  }
+  save("ss_stock", stock);
+
+  // Send notifications (fire-and-forget)
+  sendNotifications(batch).catch(e => console.warn("notify fail", e));
+
+  // Done screen
+  document.getElementById("doneBatchNo").textContent = batch.batchNo + " complete";
+  document.getElementById("doneSummary").textContent =
+    `${batch.recipeName} — ${batch.bagsActual} bags — ${batch.status} (${(batch.variancePct * 100).toFixed(2)}% variance). Notification sent to management.`;
+  showScreen("done");
+}
+
+// ============================================================
+//  NOTIFICATIONS — Telegram bot + email webhook
+// ============================================================
+async function sendNotifications(batch) {
+  const msg = formatBatchMessage(batch);
+
+  // Telegram
+  if (settings.telegramBotToken && settings.telegramChatId) {
+    const url = `https://api.telegram.org/bot${settings.telegramBotToken}/sendMessage`;
+    try {
+      await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: settings.telegramChatId,
+          text: msg,
+          parse_mode: "Markdown",
+        }),
+      });
+    } catch (e) { console.warn("Telegram send failed", e); }
+  }
+
+  // Email webhook (e.g. Google Apps Script web app, Zapier, or Make.com)
+  if (settings.emailWebhook) {
+    try {
+      await fetch(settings.emailWebhook, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(batch),
+      });
+    } catch (e) { console.warn("Email webhook failed", e); }
+  }
+}
+
+function formatBatchMessage(b) {
+  const ingLines = b.ingredients.map(i =>
+    `• ${i.name}: ${i.actual.toLocaleString()}g (target ${i.target.toLocaleString()}g) — Lot ${i.lot}`
+  ).join("\n");
+  const statusEmoji = b.status === "OK" ? "✅" : (b.status === "REVIEW" ? "⚠️" : "❌");
+  return `${statusEmoji} *Batch ${b.batchNo}*\n` +
+    `*${b.recipeName}*\n` +
+    `Operator: ${b.operator}\n` +
+    `Date: ${formatDateTime(new Date(b.date))}\n` +
+    `Bags produced: ${b.bagsActual} (expected ${b.bagsExpected})\n` +
+    `Best before: ${b.bestBefore}\n\n` +
+    `${ingLines}\n\n` +
+    `Total in: ${b.totalIn.toLocaleString()}g | Out: ${b.totalOut.toLocaleString()}g\n` +
+    `Variance: ${(b.variancePct * 100).toFixed(2)}% — *${b.status}*` +
+    (b.notes ? `\n\nNotes: ${b.notes}` : "");
+}
+
+// ============================================================
+//  STOCK
+// ============================================================
+function stockRemaining(name) {
+  if (!stock[name]) return null;
+  return stock[name].opening;
+}
+
+function renderStock() {
+  const el = document.getElementById("stockList");
+  const allIngredientNames = new Set();
+  RECIPES.forEach(r => r.ingredients.forEach(i => allIngredientNames.add(i.name)));
+  Object.keys(stock).forEach(n => allIngredientNames.add(n));
+
+  el.innerHTML = [...allIngredientNames].map(name => {
+    const s = stock[name] || { opening: 0, unit: "g" };
+    const lowFlag = s.opening < 1000;
+    return `
+      <div class="batch-item">
+        <div>
+          <div class="b-id">${name}</div>
+          <div class="b-meta">${s.opening.toLocaleString()} g · ${(s.opening/1000).toFixed(2)} kg</div>
+        </div>
+        <div class="b-status ${lowFlag ? 'bad' : 'ok'}">${lowFlag ? 'LOW' : 'OK'}</div>
+      </div>`;
+  }).join("");
+}
+
+function resetStockPrompt() {
+  const name = prompt("Which ingredient? (exact name, e.g. 'Icing Sugar')");
+  if (!name) return;
+  const cur = stock[name] ? stock[name].opening : 0;
+  const next = prompt(`New stock for "${name}" in grams (current: ${cur})`);
+  if (next === null) return;
+  const n = parseFloat(next);
+  if (isNaN(n)) { toast("Invalid number"); return; }
+  if (!stock[name]) stock[name] = { unit: "g" };
+  stock[name].opening = n;
+  save("ss_stock", stock);
+  renderStock();
+  toast("Stock updated");
+}
+
+// ============================================================
+//  CSV EXPORT
+// ============================================================
+function downloadCSV() {
+  if (batches.length === 0) { toast("No batches yet"); return; }
+  const rows = [];
+  rows.push(["BatchNo","Date","Operator","Blend","BagSize","BagsExpected","BagsActual","BestBefore","TotalIn(g)","TotalOut(g)","Variance(g)","Variance%","Status","Ingredient","Target(g)","Actual(g)","Lot","Notes"].join(","));
+  for (const b of batches) {
+    for (const i of b.ingredients) {
+      rows.push([
+        b.batchNo, b.date, q(b.operator), q(b.recipeName), b.bagSize, b.bagsExpected, b.bagsActual,
+        b.bestBefore, b.totalIn, b.totalOut, b.variance, (b.variancePct*100).toFixed(2),
+        b.status, q(i.name), i.target, i.actual, q(i.lot), q(b.notes)
+      ].join(","));
+    }
+  }
+  const blob = new Blob([rows.join("\n")], { type: "text/csv" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `sugarsisters_batches_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+}
+function q(s) { return `"${(s||"").toString().replace(/"/g, '""')}"`; }
+
+// ============================================================
+//  BARCODE SCANNER
+// ============================================================
+let scannerStream = null;
+let scannerActive = false;
+let scannerDetector = null;
+
+async function openScanner() {
+  const overlay = document.getElementById("scannerOverlay");
+  const video = document.getElementById("scannerVideo");
+  const hint = document.getElementById("scannerHint");
+
+  overlay.classList.add("show");
+
+  if (!("BarcodeDetector" in window)) {
+    hint.textContent = "Barcode scanning isn't supported on this browser. Type the lot number instead.";
+    return;
+  }
+
+  try {
+    scannerStream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: "environment" }, audio: false
+    });
+    video.srcObject = scannerStream;
+    await video.play();
+    scannerActive = true;
+    scannerDetector = new BarcodeDetector({
+      formats: ["code_128", "code_39", "ean_13", "ean_8", "qr_code", "upc_a", "upc_e", "data_matrix"]
+    });
+    scanLoop();
+  } catch (e) {
+    hint.textContent = "Camera access denied. Type the lot number instead.";
+  }
+}
+
+async function scanLoop() {
+  if (!scannerActive || !scannerDetector) return;
+  const video = document.getElementById("scannerVideo");
+  try {
+    const codes = await scannerDetector.detect(video);
+    if (codes && codes.length > 0) {
+      const value = codes[0].rawValue;
+      document.getElementById("ingLot").value = value;
+      validateIngredient();
+      toast("Barcode captured: " + value);
+      closeScanner();
+      return;
+    }
+  } catch (e) { /* ignore frame errors */ }
+  if (scannerActive) requestAnimationFrame(scanLoop);
+}
+
+function closeScanner() {
+  scannerActive = false;
+  if (scannerStream) {
+    scannerStream.getTracks().forEach(t => t.stop());
+    scannerStream = null;
+  }
+  document.getElementById("scannerOverlay").classList.remove("show");
+}
+
+// ============================================================
+//  SETTINGS — Telegram bot config
+// ============================================================
+function configureNotifications() {
+  const bot = prompt("Telegram bot token (from @BotFather):", settings.telegramBotToken || "");
+  if (bot === null) return;
+  const chat = prompt("Telegram chat ID (your phone's chat with the bot):", settings.telegramChatId || "");
+  if (chat === null) return;
+  const email = prompt("Email webhook URL (optional — paste your Apps Script web app URL):", settings.emailWebhook || "");
+  if (email === null) return;
+  settings = { telegramBotToken: bot.trim(), telegramChatId: chat.trim(), emailWebhook: email.trim() };
+  save("ss_settings", settings);
+  toast("Notification settings saved");
+}
+// Long-press the SS logo to open settings
+let pressTimer;
+document.querySelector("header .logo").addEventListener("touchstart", () => {
+  pressTimer = setTimeout(configureNotifications, 1500);
+});
+document.querySelector("header .logo").addEventListener("touchend", () => clearTimeout(pressTimer));
+document.querySelector("header .logo").addEventListener("click", () => {
+  // double click within 500ms also opens settings
+  if (window._lastLogoClick && Date.now() - window._lastLogoClick < 500) configureNotifications();
+  window._lastLogoClick = Date.now();
+});
+
+// ============================================================
+//  HELPERS
+// ============================================================
+function formatDateTime(d) {
+  return d.toLocaleString("en-IE", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
+}
+function toast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(window._tt);
+  window._tt = setTimeout(() => t.classList.remove("show"), 2400);
+}
+</script>
+</body>
+</html>
