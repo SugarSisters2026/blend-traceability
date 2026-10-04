@@ -523,7 +523,34 @@
 // ============================================================
 //  DATA — recipes and ingredients (edit here to add new blends)
 // ============================================================
+// Ingredients flagged cakePack=true belong to Cake Pack (on loan).
+// Every use of them triggers a Cake Pack notification on batch submit.
 const RECIPES = [
+  {
+    name: "Midnight Black 400g",
+    bagSize: 400,
+    bagsPerBatch: 36,
+    ingredients: [
+      { name: "Sugar (British Sugar via Finlays NI)", grams: 13600 },
+      { name: "Egg Powder (Ready Egg)",                grams: 924   },
+      { name: "Vanilla (Claremont)",                   grams: 170   },
+      { name: "Tartrazine",                            grams: 53,    cakePack: true },
+      { name: "Black PNP",                             grams: 96.2,  cakePack: true },
+      { name: "Carmazine",                             grams: 22.2,  cakePack: true },
+    ],
+  },
+  {
+    name: "Sage Green 400g",
+    bagSize: 400,
+    bagsPerBatch: 36,
+    ingredients: [
+      { name: "Sugar (British Sugar via Finlays NI)", grams: 13600 },
+      { name: "Egg Powder (Ready Egg)",                grams: 924   },
+      { name: "Vanilla (Claremont)",                   grams: 170   },
+      { name: "Quinlan Yellow",                        grams: 3.58,  cakePack: true, note: "Low quantity — confirm before weighing" },
+      { name: "Black PNP",                             grams: 12.2,  cakePack: true },
+    ],
+  },
   {
     name: "Frozen Ice 400g",
     bagSize: 400,
@@ -532,19 +559,7 @@ const RECIPES = [
       { name: "Icing Sugar",            grams: 13600 },
       { name: "Dried Egg White Powder", grams: 924   },
       { name: "Vanilla Powder",         grams: 179   },
-      { name: "Brilliant Blue E134",    grams: 17    },
-    ],
-  },
-  // Example second blend so the dropdown isn't lonely.
-  // Replace these placeholder numbers with your real recipe.
-  {
-    name: "Royal Icing 400g",
-    bagSize: 400,
-    bagsPerBatch: 36,
-    ingredients: [
-      { name: "Icing Sugar",            grams: 13680 },
-      { name: "Dried Egg White Powder", grams: 1080  },
-      { name: "Cream of Tartar",        grams: 40    },
+      { name: "Brilliant Blue E134",    grams: 17,    cakePack: true },
     ],
   },
 ];
@@ -555,11 +570,17 @@ const TOL_WARN = 0.025; // within 2.5 % = amber, beyond = red
 
 // Default opening stock — adjust under "Stock" tab
 const DEFAULT_STOCK = {
-  "Icing Sugar":            { opening: 500000, unit: "g" },
-  "Dried Egg White Powder": { opening: 50000,  unit: "g" },
-  "Vanilla Powder":         { opening: 10000,  unit: "g" },
-  "Brilliant Blue E134":    { opening: 2000,   unit: "g" },
-  "Cream of Tartar":        { opening: 5000,   unit: "g" },
+  "Sugar (British Sugar via Finlays NI)": { opening: 500000, unit: "g" },
+  "Egg Powder (Ready Egg)":                { opening: 50000,  unit: "g" },
+  "Vanilla (Claremont)":                   { opening: 10000,  unit: "g" },
+  "Icing Sugar":                           { opening: 500000, unit: "g" },
+  "Dried Egg White Powder":                { opening: 50000,  unit: "g" },
+  "Vanilla Powder":                        { opening: 10000,  unit: "g" },
+  "Tartrazine":                            { opening: 1000,   unit: "g" },
+  "Black PNP":                             { opening: 1000,   unit: "g" },
+  "Carmazine":                             { opening: 1000,   unit: "g" },
+  "Quinlan Yellow":                        { opening: 1000,   unit: "g" },
+  "Brilliant Blue E134":                   { opening: 2000,   unit: "g" },
 };
 
 // ============================================================
@@ -592,7 +613,40 @@ if (!stock) {
   save("ss_stock", stock);
 }
 
-let settings = load("ss_settings", { telegramBotToken: "", telegramChatId: "", emailWebhook: "" });
+// Seed the Midnight Black 280620061 batch (made 1 Oct 2026) once per device,
+// so the history reflects what was actually produced before the app went live.
+if (!load("ss_seeded_v1", false)) {
+  const seedIngs = [
+    { name: "Sugar (British Sugar via Finlays NI)", target: 13600, actual: 13600, lot: "FINLAYS-NI", scannedAt: "2026-10-01T09:00:00Z", cakePack: false },
+    { name: "Egg Powder (Ready Egg)",                target: 924,   actual: 924,   lot: "READY-EGG", scannedAt: "2026-10-01T09:05:00Z", cakePack: false },
+    { name: "Vanilla (Claremont)",                   target: 170,   actual: 170,   lot: "CLAREMONT", scannedAt: "2026-10-01T09:10:00Z", cakePack: false },
+    { name: "Tartrazine",                            target: 53,    actual: 53,    lot: "CAKEPACK",  scannedAt: "2026-10-01T09:15:00Z", cakePack: true },
+    { name: "Black PNP",                             target: 96.2,  actual: 96.2,  lot: "CAKEPACK",  scannedAt: "2026-10-01T09:16:00Z", cakePack: true },
+    { name: "Carmazine",                             target: 22.2,  actual: 22.2,  lot: "CAKEPACK",  scannedAt: "2026-10-01T09:17:00Z", cakePack: true },
+  ];
+  const totalIn  = seedIngs.reduce((s, i) => s + i.actual, 0);
+  const totalOut = 36 * 400;
+  const variance = totalIn - totalOut;
+  const variancePct = variance / totalOut;
+  batches.push({
+    batchNo: "280620061",
+    date: "2026-10-01T09:00:00Z",
+    operator: "Paul",
+    recipeName: "Midnight Black 400g",
+    bagSize: 400,
+    bagsExpected: 36,
+    bagsActual: 36,
+    bestBefore: "2028-06-28",
+    notes: "Seeded from PDF import 4 Oct 2026. Pack contents per bag: 400g bag, front label, back label, best-before/batch label.",
+    ingredients: seedIngs,
+    totalIn, totalOut, variance, variancePct,
+    status: Math.abs(variancePct) <= 0.01 ? "OK" : (Math.abs(variancePct) <= 0.025 ? "REVIEW" : "CHECK"),
+  });
+  save("ss_batches", batches);
+  save("ss_seeded_v1", true);
+}
+
+let settings = load("ss_settings", { telegramBotToken: "", telegramChatId: "", cakePackChatId: "", emailWebhook: "" });
 
 // ============================================================
 //  SCREEN ROUTER
@@ -689,7 +743,8 @@ function startBatch(recipeIndex) {
   state.startedAt = new Date().toISOString();
   state.ingredientStep = 0;
   state.ingredientResults = state.recipe.ingredients.map(i => ({
-    name: i.name, target: i.grams, actual: null, lot: "", scannedAt: null
+    name: i.name, target: i.grams, actual: null, lot: "", scannedAt: null,
+    cakePack: !!i.cakePack
   }));
   state.bagsActual = null;
   state.bestBefore = null;
@@ -732,13 +787,16 @@ function goToIngredient(idx) {
 
   const stockLeft = stockRemaining(ing.name);
   const stockEl = document.getElementById("ingStock");
+  let stockLine = "";
   if (stockLeft !== null) {
-    stockEl.textContent = `In stock: ${stockLeft.toLocaleString()} g (${(stockLeft/1000).toFixed(2)} kg)`;
+    stockLine = `In stock: ${stockLeft.toLocaleString()} g (${(stockLeft/1000).toFixed(2)} kg)`;
     if (stockLeft < ing.grams) stockEl.style.color = "#f87171";
     else stockEl.style.color = "";
-  } else {
-    stockEl.textContent = "";
   }
+  const flags = [];
+  if (ing.cakePack) flags.push("⚑ Belongs to Cake Pack — will be reported on submit");
+  if (ing.note)     flags.push("⚠ " + ing.note);
+  stockEl.innerHTML = [stockLine, ...flags].filter(Boolean).join("<br>");
 
   document.getElementById("ingActual").value = prior.actual !== null ? prior.actual : "";
   document.getElementById("ingLot").value = prior.lot || "";
@@ -786,7 +844,8 @@ function confirmIngredient() {
   const lot = document.getElementById("ingLot").value.trim();
   if (!(actual > 0) || !lot) return;
   state.ingredientResults[state.ingredientStep] = {
-    name: ing.name, target: ing.grams, actual, lot, scannedAt: new Date().toISOString()
+    name: ing.name, target: ing.grams, actual, lot, scannedAt: new Date().toISOString(),
+    cakePack: !!ing.cakePack
   };
   goToIngredient(state.ingredientStep + 1);
 }
@@ -860,8 +919,9 @@ function renderReview() {
   document.getElementById("reviewIngredients").innerHTML = `
     <h3>Ingredients</h3>
     ${state.ingredientResults.map(r => `
-      <div class="summary-row"><span class="lbl">${r.name}<br><span style="font-size:11px;color:var(--grey-400)">Lot: ${r.lot}</span></span><span class="val">${r.actual.toLocaleString()} g<br><span style="font-size:11px;color:var(--grey-400)">target ${r.target.toLocaleString()}</span></span></div>
+      <div class="summary-row"><span class="lbl">${r.name}${r.cakePack ? ' <span style="font-size:10px;background:#f0b429;color:#0a2540;padding:1px 6px;border-radius:4px;font-weight:700">CAKE PACK</span>' : ''}<br><span style="font-size:11px;color:var(--grey-400)">Lot: ${r.lot}</span></span><span class="val">${r.actual.toLocaleString()} g<br><span style="font-size:11px;color:var(--grey-400)">target ${r.target.toLocaleString()}</span></span></div>
     `).join("")}
+    ${state.ingredientResults.some(r => r.cakePack) ? '<div style="margin-top:10px;padding:10px;background:#fef3c7;border-radius:8px;font-size:13px;color:#92400e"><b>Cake Pack notification</b> will be sent for the highlighted colours on submit.</div>' : ''}
   `;
 
   document.getElementById("reviewTotals").innerHTML = `
@@ -938,23 +998,18 @@ async function submitBatch() {
 async function sendNotifications(batch) {
   const msg = formatBatchMessage(batch);
 
-  // Telegram
+  // Main Telegram — management
   if (settings.telegramBotToken && settings.telegramChatId) {
-    const url = `https://api.telegram.org/bot${settings.telegramBotToken}/sendMessage`;
-    try {
-      await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          chat_id: settings.telegramChatId,
-          text: msg,
-          parse_mode: "Markdown",
-        }),
-      });
-    } catch (e) { console.warn("Telegram send failed", e); }
+    await tgSend(settings.telegramChatId, msg);
   }
 
-  // Email webhook (e.g. Google Apps Script web app, Zapier, or Make.com)
+  // Cake Pack Telegram — only when the batch used Cake Pack colours
+  const cpUsed = batch.ingredients.filter(i => i.cakePack && i.actual > 0);
+  if (cpUsed.length > 0 && settings.telegramBotToken && settings.cakePackChatId) {
+    await tgSend(settings.cakePackChatId, formatCakePackMessage(batch, cpUsed));
+  }
+
+  // Email webhook (Apps Script web app, Zapier, or Make.com)
   if (settings.emailWebhook) {
     try {
       await fetch(settings.emailWebhook, {
@@ -967,11 +1022,25 @@ async function sendNotifications(batch) {
   }
 }
 
+async function tgSend(chatId, text) {
+  const url = `https://api.telegram.org/bot${settings.telegramBotToken}/sendMessage`;
+  try {
+    await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: chatId, text, parse_mode: "Markdown" }),
+    });
+  } catch (e) { console.warn("Telegram send failed", e); }
+}
+
 function formatBatchMessage(b) {
-  const ingLines = b.ingredients.map(i =>
-    `• ${i.name}: ${i.actual.toLocaleString()}g (target ${i.target.toLocaleString()}g) — Lot ${i.lot}`
-  ).join("\n");
+  const ingLines = b.ingredients.map(i => {
+    const flag = i.cakePack ? " [CP]" : "";
+    return `• ${i.name}${flag}: ${i.actual.toLocaleString()}g (target ${i.target.toLocaleString()}g) — Lot ${i.lot}`;
+  }).join("\n");
   const statusEmoji = b.status === "OK" ? "✅" : (b.status === "REVIEW" ? "⚠️" : "❌");
+  const cp = b.ingredients.filter(i => i.cakePack && i.actual > 0);
+  const cpFooter = cp.length ? `\n\nCake Pack colours used: ${cp.map(i => i.name).join(", ")}` : "";
   return `${statusEmoji} *Batch ${b.batchNo}*\n` +
     `*${b.recipeName}*\n` +
     `Operator: ${b.operator}\n` +
@@ -981,7 +1050,20 @@ function formatBatchMessage(b) {
     `${ingLines}\n\n` +
     `Total in: ${b.totalIn.toLocaleString()}g | Out: ${b.totalOut.toLocaleString()}g\n` +
     `Variance: ${(b.variancePct * 100).toFixed(2)}% — *${b.status}*` +
+    cpFooter +
     (b.notes ? `\n\nNotes: ${b.notes}` : "");
+}
+
+function formatCakePackMessage(b, cpUsed) {
+  const lines = cpUsed.map(i =>
+    `• ${i.name}: ${i.actual.toLocaleString()}g — Lot ${i.lot}`
+  ).join("\n");
+  return `🎨 *Cake Pack usage notice*\n` +
+    `Batch: ${b.batchNo} — ${b.recipeName}\n` +
+    `Date: ${formatDateTime(new Date(b.date))}\n` +
+    `Operator: ${b.operator}\n\n` +
+    `Colours used from Cake Pack stock:\n${lines}\n\n` +
+    `Produced: ${b.bagsActual} × ${b.bagSize}g bags.`;
 }
 
 // ============================================================
@@ -1033,13 +1115,13 @@ function resetStockPrompt() {
 function downloadCSV() {
   if (batches.length === 0) { toast("No batches yet"); return; }
   const rows = [];
-  rows.push(["BatchNo","Date","Operator","Blend","BagSize","BagsExpected","BagsActual","BestBefore","TotalIn(g)","TotalOut(g)","Variance(g)","Variance%","Status","Ingredient","Target(g)","Actual(g)","Lot","Notes"].join(","));
+  rows.push(["BatchNo","Date","Operator","Blend","BagSize","BagsExpected","BagsActual","BestBefore","TotalIn(g)","TotalOut(g)","Variance(g)","Variance%","Status","Ingredient","CakePack","Target(g)","Actual(g)","Lot","Notes"].join(","));
   for (const b of batches) {
     for (const i of b.ingredients) {
       rows.push([
         b.batchNo, b.date, q(b.operator), q(b.recipeName), b.bagSize, b.bagsExpected, b.bagsActual,
         b.bestBefore, b.totalIn, b.totalOut, b.variance, (b.variancePct*100).toFixed(2),
-        b.status, q(i.name), i.target, i.actual, q(i.lot), q(b.notes)
+        b.status, q(i.name), i.cakePack ? "Y" : "", i.target, i.actual, q(i.lot), q(b.notes)
       ].join(","));
     }
   }
@@ -1118,11 +1200,18 @@ function closeScanner() {
 function configureNotifications() {
   const bot = prompt("Telegram bot token (from @BotFather):", settings.telegramBotToken || "");
   if (bot === null) return;
-  const chat = prompt("Telegram chat ID (your phone's chat with the bot):", settings.telegramChatId || "");
+  const chat = prompt("Management Telegram chat ID (your own chat with the bot):", settings.telegramChatId || "");
   if (chat === null) return;
+  const cp = prompt("Cake Pack Telegram chat ID (group or contact — leave blank to skip):", settings.cakePackChatId || "");
+  if (cp === null) return;
   const email = prompt("Email webhook URL (optional — paste your Apps Script web app URL):", settings.emailWebhook || "");
   if (email === null) return;
-  settings = { telegramBotToken: bot.trim(), telegramChatId: chat.trim(), emailWebhook: email.trim() };
+  settings = {
+    telegramBotToken: bot.trim(),
+    telegramChatId: chat.trim(),
+    cakePackChatId: cp.trim(),
+    emailWebhook: email.trim(),
+  };
   save("ss_settings", settings);
   toast("Notification settings saved");
 }
