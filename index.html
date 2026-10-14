@@ -378,7 +378,7 @@
     <div class="logo">SS</div>
     <div>
       <div class="title">Blend Traceability</div>
-      <div class="subtitle">SugarSisters · v1.5</div>
+      <div class="subtitle">SugarSisters · v1.6</div>
     </div>
   </div>
   <div class="who" id="whoLabel"></div>
@@ -436,6 +436,7 @@
   <section class="screen" id="screen-start">
     <span class="step-pill">Start</span>
     <h1 id="startBlendName">Blend Name</h1>
+    <div id="startReminder" style="display:none;background:#fef3c7;border:2px solid #f59e0b;color:#78350f;padding:14px 16px;border-radius:10px;margin-bottom:14px;font-weight:600;font-size:15px;line-height:1.4"></div>
     <div class="card">
       <div class="card-row"><span class="label">Batch number</span><span class="value" id="startBatchNo">—</span></div>
       <div class="card-row"><span class="label">Bag size</span><span class="value" id="startBagSize">—</span></div>
@@ -592,6 +593,7 @@ const RECIPES = [
     name: "Sage Green 400g",
     bagSize: 400,
     bagsPerBatch: 36,
+    startNote: "BEFORE YOU START: have the Black PNP ready. Cake Pack colour, very low quantity (1.22g per batch). Confirm you have it on the bench before weighing begins.",
     ingredients: [
       { name: "Sugar (British Sugar via Finlays NI)", grams: 13600 },
       { name: "Egg Powder (Ready Egg)",                grams: 924   },
@@ -836,6 +838,13 @@ function startBatch(recipeIndex) {
   document.getElementById("startOperator").textContent = state.operator;
   document.getElementById("startDateTime").textContent = formatDateTime(new Date());
   document.getElementById("batchLabel").textContent = state.batchNo;
+  const remEl = document.getElementById("startReminder");
+  if (state.recipe.startNote) {
+    remEl.textContent = "⚠ " + state.recipe.startNote;
+    remEl.style.display = "block";
+  } else {
+    remEl.style.display = "none";
+  }
 
   updateProgress(0);
   showScreen("start");
